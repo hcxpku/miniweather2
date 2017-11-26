@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.BufferedReader;
@@ -32,6 +33,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private TextView cityTv,timeTv,humidityTv,weekTv,pmDataTv,pmQualityTv,
             temperatureTv,climateTv,windTv,city_name_Tv,wenduTv;
     private ImageView weatherImg,pmImg;
+    private ProgressBar pro;
     //主线程增加Handler
     private Handler mHandler=new Handler(){
         public void handleMessage(android.os.Message msg){
@@ -51,6 +53,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.weather_info);//加载布局文件
         mUpdateBtn=(ImageView)findViewById(R.id.title_update_btn);
         mUpdateBtn.setOnClickListener(this);
+        pro=(ProgressBar)findViewById(R.id.title_update_progress);
         //测试网络连接
         if(NetUtil.getNetworkState(this)!=NetUtil.NETWORN_NONE){
             Log.d("myWeather","网络OK");
@@ -102,6 +105,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         }
         if(view.getId()==R.id.title_update_btn){
+            pro.setVisibility(ProgressBar.VISIBLE);
+            mUpdateBtn.setVisibility(ImageView.INVISIBLE);
             SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
             String cityCode=sharedPreferences.getString("main_city_code","101010100");
             if(NetUtil.getNetworkState(this)!=NetUtil.NETWORN_NONE) {
@@ -260,6 +265,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
     //更新页面信息
     public void updateTodayWeather(TodayWeather todayWeather){
         Log.d("todayWeather","更新成功");
+        pro.setVisibility(ProgressBar.INVISIBLE);
+        mUpdateBtn.setVisibility(ImageView.VISIBLE);
         city_name_Tv.setText(todayWeather.getCity()+"天气");
         cityTv.setText(todayWeather.getCity());
         timeTv.setText(todayWeather.getUpdatetime()+"发布");

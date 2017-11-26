@@ -44,6 +44,13 @@
         android:orientation="vertical">
 
         <AutoCompleteTextView
+            android:paddingLeft="10dip"
+            android:paddingRight="30dip"
+            android:paddingTop="8dip"
+            android:paddingBottom="8dip"
+            android:singleLine="true"
+            android:drawablePadding="8dip"
+            android:background="@drawable/contact_search_box_edittext_keyword_background"
             android:id="@+id/search_city"
             android:completionThreshold="2"
             android:layout_width="match_parent"
